@@ -1,57 +1,49 @@
-// import React from 'react';
+import React, { useState } from 'react';
 
-// const OtpPopUp = ({ isOpen, onClose }) => {
-//   return (
-//     <div className={`fixed inset-0 bg-white flex items-center justify-center z-50 ${isOpen ? 'visible' : 'hidden'}`}>
-//       <div className="bg-white p-6 rounded-md shadow-md w-full max-w-md">
-//         <h2 className="text-2xl font-semibold mb-4">Enter OTP</h2>
-//         <input
-//           type="text"
-//           placeholder="OTP"
-//           className="w-full p-2 border border-gray-300 rounded-md mb-4"
-//           defaultValue="1234"
-//         />
-//         <button
-//           onClick={onClose}
-//           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-//         >
-//           Close
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
+const OtpPopUp = ({ isOpen, onClose, onSubmit }) => {
+  const [otp, setOtp] = useState(['', '', '', '']);
 
-// export default OtpPopUp;
-import React from "react";
+  const handleOtpChange = (index, value) => {
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+  };
 
-export default function OtpPopUp({onClose, onOpen}) {
+  const handleSubmit = () => {
+    const enteredOtp = otp.join('');
+    if (enteredOtp === '1234') {
+      onSubmit();
+    } else {
+      console.log('Invalid OTP');
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white p-2 rounded w-72">
-        <h1 className="font-semibold text-center text-xl text-gray-700">
-          Welcome back
-        </h1>
-        <p className="text-center text-gray-700 mb-5">Sign in</p>
-
-        <div className="flex flex-col">
-          <input
-            type="text"
-            className="border border-gray-700 p-2 rounded mb-5"
-            placeholder="email@example.com"
-          />
-          <input
-            type="text"
-            className="border border-gray-700 p-2 rounded mb-5"
-            placeholder="********"
-          />
+    <div className={isOpen ? "fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center" : "hidden"}>
+      <div className="bg-white p-6 w-60 rounded-md shadow-md max-w-md">
+        <h2 className="text-xl font-bold ml-10 px-1 text-[#482683] mb-4">Enter OTP</h2>
+        <div className="flex mb-4">
+          {otp.map((digit, index) => (
+            <input
+              key={index}
+              type="text"
+              placeholder=""
+              maxLength="1"
+              className="w-10 p-3 border border-gray-500 bg-[#482683] text-white font-semibold text-xs rounded-md mr-2"
+              value={digit}
+              onChange={(e) => handleOtpChange(index, e.target.value)}
+            />
+          ))}
         </div>
-        <div className="text-center">
-          <button className="px-5 py-2 bg-gray-700 text-white rounded">
-            Sign in
-          </button>
-        </div>
+        <button
+          onClick={handleSubmit}
+          className="bg-yellow-500 text-white ml-12 font-semibold text-xs px-6 py-3 rounded-md hover:bg-blue-600"
+        >
+          Submit
+        </button>
       </div>
     </div>
   );
-}
+};
+
+export default OtpPopUp;

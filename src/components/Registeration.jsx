@@ -7,18 +7,29 @@ import Yellowtone from '../assets/Yellowtone.png'
 import progressbar from '../assets/progressbar.png'
 import OtpPopUp from './OtpPopUp';
 function Registration() {
-  const [isOtpPopupOpen, setIsOtpPopupOpen] = useState(false);
-  const [otpValue, setOtpValue] = useState('1234'); 
+  // const [isOtpPopupOpen, setIsOtpPopupOpen] = useState(false);
+  // const [otpValue, setOtpValue] = useState('1234'); 
   const navigate = useNavigate();
   
-  const openOtpPopup = () => {
+  const [isOtpPopupOpen, setIsOtpPopupOpen] = useState(false);
+  // ... (other state variables)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setIsOtpPopupOpen(true);
+    // Other form submission logic can be added here if needed
   };
 
-  const closeOtpPopup = () => {
+  const handleOtpSubmit = () => {
+    // OTP is verified, navigate to the next page
+    setIsOtpPopupOpen(false);
+    navigate('/birthday-can');
+  };
+
+  const handleOtpPopupClose = () => {
+    // Handle any necessary actions when the OTP popup is closed
     setIsOtpPopupOpen(false);
   };
-
   
 
   const containerStyle = {
@@ -39,12 +50,23 @@ function Registration() {
     marginTop:'-55px'
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Submitting form');
-    navigate('/birthday-can');
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('Submitting form');
+  //   navigate('/birthday-can');
    
-  };
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setIsOtpPopupOpen(true);
+  //   // console.log(isOtpPopupOpen)
+  //   // if (otpValue === '1234') {
+  //   //   navigate('/birthday-can');
+  //   // } else {
+  //   //   console.log('Invalid OTP');
+  //   // }
+  // };
 
   return (
     <div style={containerStyle}>
@@ -98,7 +120,8 @@ function Registration() {
  
   </div>
 </form>
-{/* {isOtpPopupOpen && <OtpPopUp otp={otpValue} onClose={closeOtpPopup} onOpen={openOtpPopup} />} */}
+{/* {isOtpPopupOpen && <OtpPopUp  />} */}
+<OtpPopUp isOpen={isOtpPopupOpen} onClose={handleOtpPopupClose} onSubmit={handleOtpSubmit} />
 </div>
    
   );
